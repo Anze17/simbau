@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galerija projektov | SIMBAU</title>
+    <meta name="description" content="Oglejte si galerijo izvedenih gradbenih projektov podjetja SIMBAU.">
+    <link rel="stylesheet" href="common.css">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="loading.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Gallery Hero */
+        .gallery-hero {
+            padding: 100px 60px 80px;
+            background: linear-gradient(135deg, #0e4c80, #2c5aa0);
+            text-align: center;
+        }
+
+        .gallery-hero h1 {
+            font-size: 42px;
+            font-weight: 800;
+            color: white;
+            font-family: 'Science Gothic', sans-serif;
+            padding-bottom: 20px;
+        }
+
+        .gallery-intro {
+            font-size: 18px;
+            color: rgba(255,255,255,0.95);
+            line-height: 1.7;
+            max-width: 800px;
+            padding-bottom: 30px;
+        }
+
+        .gallery-stats {
+            display: flex;
+            gap: 50px;
+            justify-content: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 800;
+            color: white;
+            font-family: 'Science Gothic', sans-serif;
+            display: block;
+            padding-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: rgba(255,255,255,0.8);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Filter Section */
+        .gallery-filter-section {
+            padding: 0;
+            background: white;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #eee;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .gallery-filters {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            max-width: 1200px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 20px 30px;
+            background: transparent;
+            border: none;
+            color: #666;
+            font-size: 16px;
+            font-weight: 600;
+            font-family: 'Science Gothic', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .filter-btn:hover {
+            color: #0e4c80;
+            background: rgba(14,76,128,0.05);
+        }
+
+        .filter-btn.active {
+            color: #0e4c80;
+            border-bottom-color: #0e4c80;
+            background: rgba(14,76,128,0.05);
+        }
+
+        /* Gallery Container */
+        .gallery-container {
+            padding: 60px;
+            background: #f8f9fa;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1400px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .gallery-item.hidden {
+            display: none;
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 25px;
+            background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .gallery-overlay h3 {
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            font-family: 'Science Gothic', sans-serif;
+            padding-bottom: 5px;
+        }
+
+        .gallery-overlay span {
+            color: rgba(255,255,255,0.85);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .lightbox.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 85vh;
+            position: relative;
+        }
+
+        .lightbox-image {
+            max-width: 100%;
+            max-height: 85vh;
+            object-fit: contain;
+        }
+
+        .lightbox-info {
+            position: absolute;
+            bottom: -70px;
+            left: 0;
+            color: white;
+        }
+
+        .lightbox-title {
+            font-size: 20px;
+            font-weight: 600;
+            font-family: 'Science Gothic', sans-serif;
+            padding-bottom: 5px;
+        }
+
+        .lightbox-caption {
+            font-size: 14px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .lightbox-close:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .lightbox-nav:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .lightbox-prev {
+            left: 30px;
+        }
+
+        .lightbox-next {
+            right: 30px;
+        }
+
+        .lightbox-counter {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.6);
+            font-size: 14px;
+            font-family: 'Science Gothic', sans-serif;
+            letter-spacing: 2px;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .gallery-hero {
+                padding: 80px 20px 50px;
+            }
+
+            .gallery-hero h1 {
+                font-size: 32px;
+            }
+
+            .gallery-intro {
+                font-size: 16px;
+            }
+
+            .gallery-stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .gallery-filter-section {
+                top: 70px;
+            }
+
+            .gallery-filters {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                justify-content: flex-start;
+                flex-wrap: nowrap;
+            }
+
+            .gallery-filters::-webkit-scrollbar {
+                display: none;
+            }
+
+            .filter-btn {
+                padding: 18px 25px;
+                font-size: 15px;
+                flex-shrink: 0;
+                min-height: 48px;
+            }
+
+            .gallery-container {
+                padding: 30px 20px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .gallery-image {
+                height: 250px;
+            }
+
+            .lightbox-close,
+            .lightbox-nav {
+                width: 44px;
+                height: 44px;
+                font-size: 20px;
+            }
+
+            .lightbox-close {
+                top: 20px;
+                right: 20px;
+            }
+
+            .lightbox-prev {
+                left: 20px;
+            }
+
+            .lightbox-next {
+                right: 20px;
+            }
+        }
+    </style>
+    <script src="mobile-menu.js"></script>
+</head>
+<body>
+
+<!-- Loading Screen -->
+<div class="loading-screen">
+    <div class="progress-bar">
+        <div class="progress-fill"></div>
+    </div>
+</div>
+
+<div id="menu-placeholder"></div>
+
+<main class="main-content">
+
+
+
+<!-- Filter Section -->
+<section class="gallery-filter-section">
+    <div class="gallery-filters">
+        <button class="filter-btn active" data-filter="all">Vse</button>
+        <button class="filter-btn" data-filter="novogradnje">Novogradnje</button>
+        <button class="filter-btn" data-filter="krovstvo">Krovstvo</button>
+        <button class="filter-btn" data-filter="kleparstvo">Kleparstvo</button>
+        <button class="filter-btn" data-filter="adaptacije">Adaptacije</button>
+    </div>
+</section>
+
+<!-- Gallery Grid -->
+<section class="gallery-container">
+    <div class="gallery-grid" id="galleryGrid">
+        
+        <!-- NOVOGRADNJE -->
+        <div class="gallery-item" data-category="novogradnje">
+            <img src="novogradnje/20250417_133227.jpg" alt="Novogradnja" class="gallery-image">
+            <div class="gallery-overlay">
+                <h3>Stanovanjska hiša</h3>
+                <span>Novogradnja</span>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="novogradnje">
+            <img src="novogradnje/356656056_632642948933720_1011715353678505075_n.jpg" alt="Novogradnja" class="gallery-image">
+            <div class="gallery-overlay">
+                <h3>Poslovno-stanovanjski objekt</h3>
+                <span>Novogradnja</span>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="novogradnje">
+            <img src="novogradnje/FB_IMG_1767792422708.jpg" alt="Novogradnja" class="gallery-image">
+            <div class="gallery-overlay">
+                <h3>Hiša v izgradnji</h3>
+                <span>Novogradnja</span>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="novogradnje">
+            <img src="novogradnje/IMG_20231104_113402.jpg" alt="Novogradnja" class="gallery-image">
+            <div class="gallery-overlay">
+                <h3>Večstanovanjski objekt</h3>
+                <span>Novogradnja</span>
+            </div>
+        </div>
+
+        <!-- KROVSTVO -->
+        <div class="gallery-item" data-category="krovstvo">
+            <img src="krovstvo/FB_IMG_1767792356117.jpg" alt="Krovstvo" class="gallery-image">
+            <div class="gallery-overlay">
+                <h3>Nova streha</h3>
+                <span>Krovstvo</span>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="krovstvo">
+            <img src="krovstvo/FB_IMG_1767792503035.jpg" alt="Krovstvo" class="gallery-image">
+            <div class="gallery-overlay">
+                <h3>Obnovljena kritina</h3>
+                <span>Krovstvo</span>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="krovstvo">
+            <img src="krovstvo/FB_IMG_1768478364629.jpg" alt="Krovstvo" class="gallery-image">
+            <div class="gallery-overlay">
+                <h3>Kompleksna streha</h3>
+                <span>Krovstvo</span>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="krovstvo">
+            <img src="krovstvo/FB_IMG_1768478366786.jpg" alt="Krovstvo" class="gallery-image">
+            <div class="gallery-overlay">
+                <h3>Strešna konstrukcija</h3>
+                <span>Krovstvo</span>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="krovstvo">
+            <img src="krovstvo/FB_IMG_1768478815169.jpg" alt="Krovstvo" class="gallery-image">
+            <div class="gallery-overlay">
+                <h3>Obnova strehe</h3>
+                <span>Krovstvo</span>
+            </div>
+        </div>
+
+        <!-- KLEPARSTVO -->
+        <div class="gallery-item" data-category="kleparstvo">
+            <img src="kleparska_dela/FB_IMG_1768478430265.jpg" alt="Kleparstvo" class="gallery-image">
+            <div class="gallery-overlay">
+                <h3>Žlebovi in odtoki</h3>
+                <span>Kleparstvo</span>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="kleparstvo">
+            <img src="kleparska_dela/FB_IMG_1768478550552.jpg" alt="Kleparstvo" class="gallery-image">
+            <div class="gallery-overlay">
+                <h3>Kleparska dela</h3>
+                <span>Kleparstvo</span>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="kleparstvo">
+            <img src="kleparska_dela/FB_IMG_1768478751182.jpg" alt="Kleparstvo" class="gallery-image">
+            <div class="gallery-overlay">
+                <h3>Montaža žlebov</h3>
+                <span>Kleparstvo</span>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="kleparstvo">
+            <img src="kleparska_dela/IMG-bcc695c2817386cc743bd7485dd4ae21-V.jpg" alt="Kleparstvo" class="gallery-image">
+            <div class="gallery-overlay">
+                <h3>Strešni detajli</h3>
+                <span>Kleparstvo</span>
+            </div>
+        </div>
+
+        <!-- ADAPTACIJE -->
+        <div class="gallery-item" data-category="adaptacije">
+            <img src="adaptacije_slike/IMG_20230529_121257.jpg" alt="Adaptacija" class="gallery-image">
+            <div class="gallery-overlay">
+                <h3>Prenova objekta</h3>
+                <span>Adaptacije</span>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="adaptacije">
+            <img src="adaptacije_slike/IMG_20240124_114849.jpg" alt="Adaptacija" class="gallery-image">
+            <div class="gallery-overlay">
+                <h3>Adaptacija fasade</h3>
+                <span>Adaptacije</span>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose">
+        <i class="fas fa-times"></i>
+    </button>
+    <button class="lightbox-nav lightbox-prev" id="lightboxPrev">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+    <button class="lightbox-nav lightbox-next" id="lightboxNext">
+        <i class="fas fa-chevron-right"></i>
+    </button>
+    <div class="lightbox-content">
+        <img src="" alt="" class="lightbox-image" id="lightboxImage">
+        <div class="lightbox-info">
+            <div class="lightbox-title" id="lightboxTitle"></div>
+            <div class="lightbox-caption" id="lightboxCaption"></div>
+        </div>
+    </div>
+    <div class="lightbox-counter" id="lightboxCounter"></div>
+</div>
+
+</main>
+
+
+<!-- Footer -->
+<footer class="footer-simple">
+    <div class="footer-container">
+        <div class="footer-grid">
+            <div class="footer-section">
+                <h3 class="footer-section-title">SIMBAU d.o.o.</h3>
+                <p class="footer-copyright">&copy; 2024 Vse pravice pridržane</p>
+            </div>
+
+            <div class="footer-section">
+                <h4 class="footer-heading">Navigacija</h4>
+                <nav class="footer-nav">
+                    <a href="index.html">Domov</a>
+                    <a href="osimbau.html">O nas</a>
+                    <a href="galerija.html">Galerija</a>
+                    <a href="kontakt.html">Kontakt</a>
+                </nav>
+            </div>
+
+            <div class="footer-section">
+                <h4 class="footer-heading">Storitve</h4>
+                <nav class="footer-nav">
+                    <a href="gradbenistvo.html">Gradbeništvo</a>
+                    <a href="krovstvo-in-kleparstvo.html">Krovstvo</a>
+                    <a href="adaptacije.html">Adaptacije</a>
+                </nav>
+            </div>
+
+            <div class="footer-section">
+                <h4 class="footer-heading">Kontakt</h4>
+                <div class="footer-contact-info">
+                    <a href="tel:+38631605305">+386 31 605 305</a>
+                    <a href="mailto:info@simbau.si">info@simbau.si</a>
+                    <p>PE Vratja vas 14, 9253 Apače</p>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4 class="footer-heading">Sledite nam</h4>
+                <div class="footer-social">
+                    <a href="https://www.facebook.com/profile.php?id=100063657256911" target="_blank" rel="noopener" aria-label="Facebook">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <a href="https://www.instagram.com/simbau_gradbenistvo/" target="_blank" rel="noopener" aria-label="Instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="loading.js"></script>
+<script>
+    // Load menu
+    fetch('menu.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('menu-placeholder').innerHTML = data;
+        });
+
+    // Gallery filtering
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const filter = btn.dataset.filter;
+
+            // Update active button
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Filter items
+            galleryItems.forEach(item => {
+                if (filter === 'all' || item.dataset.category === filter) {
+                    item.classList.remove('hidden');
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+        });
+    });
+
+    // Lightbox functionality
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImage = document.getElementById('lightboxImage');
+    const lightboxTitle = document.getElementById('lightboxTitle');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+    const lightboxCounter = document.getElementById('lightboxCounter');
+    const lightboxClose = document.getElementById('lightboxClose');
+    const lightboxPrev = document.getElementById('lightboxPrev');
+    const lightboxNext = document.getElementById('lightboxNext');
+
+    let currentIndex = 0;
+    let currentItems = [];
+
+    function updateCurrentItems() {
+        currentItems = Array.from(galleryItems).filter(item => !item.classList.contains('hidden'));
+    }
+
+    galleryItems.forEach((item, index) => {
+        item.addEventListener('click', () => {
+            updateCurrentItems();
+            const itemIndex = currentItems.indexOf(item);
+            if (itemIndex !== -1) {
+                openLightbox(itemIndex);
+            }
+        });
+    });
+
+    function openLightbox(index) {
+        currentIndex = index;
+        const item = currentItems[currentIndex];
+        const img = item.querySelector('.gallery-image');
+        const title = item.querySelector('.gallery-overlay h3').textContent;
+        const caption = item.querySelector('.gallery-overlay span').textContent;
+
+        lightboxImage.src = img.src;
+        lightboxImage.alt = img.alt;
+        lightboxTitle.textContent = title;
+        lightboxCaption.textContent = caption;
+        lightboxCounter.textContent = `${currentIndex + 1} / ${currentItems.length}`;
+
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    function showPrev() {
+        currentIndex = (currentIndex - 1 + currentItems.length) % currentItems.length;
+        openLightbox(currentIndex);
+    }
+
+    function showNext() {
+        currentIndex = (currentIndex + 1) % currentItems.length;
+        openLightbox(currentIndex);
+    }
+
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightboxPrev.addEventListener('click', showPrev);
+    lightboxNext.addEventListener('click', showNext);
+
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) {
+            closeLightbox();
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (!lightbox.classList.contains('active')) return;
+        
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') showPrev();
+        if (e.key === 'ArrowRight') showNext();
+    });
+
+    updateCurrentItems();
+</script>
+
+</body>
+</html>

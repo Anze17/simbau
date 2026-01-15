@@ -1,0 +1,31 @@
+<nav class="nav-bar">
+    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Odpri meni">
+        <i class="fas fa-bars"></i>
+    </button>
+    
+    <ul class="nav-left" id="navMenu">
+        <li><a href="index.html">Domov</a></li>
+        <li class="dropdown" onclick="toggleDropdown(this)">
+            <a href="#" class="dropdown-toggle">Storitve</a>
+            <ul class="dropdown-menu">
+                <li><a href="gradbenistvo.html">Gradbeništvo in novogradnje</a></li>
+                <li><a href="krovstvo-in-kleparstvo.html">Krovstvo in kleparstvo</a></li>
+                <li><a href="strojni-izkopi.html">Strojni izkopi</a></li>
+                <li><a href="adaptacije.html">Adaptacije in sanacije</a></li>
+            </ul>
+        </li>
+        <li><a href="osimbau.html">O nas</a></li>
+        <li><a href="nakup-nepremicnin.html">Nepremičnine</a></li>
+        <li><a href="galerija.html">Galerija</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+        <li class="dropdown dropdown-deckmann" onclick="toggleDropdown(this)">
+            <a href="https://deckman.si/" class="dropdown-toggle deckmann-link" target="_blank" onclick="event.stopPropagation()"><img src="slike/deckmannlogo.png" alt="Deckmann"></a>
+            <ul class="dropdown-menu dropdown-menu-deckmann">
+                <li><a href="najem-odrov.html">Najem odrov</a></li>
+                <li><a href="https://deckman.si/" target="_blank">Nakup odrov</a></li>
+            </ul>
+        </li>
+    </ul>
+
+    <a href="index.html" class="logo"><img src="slike/prosojnosimbaumoder.png" alt="SIMBAU" style="width:380px;height:auto;"></a>
+</nav>

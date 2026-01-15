@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontakt - SIMBAU</title>
+    <link rel="stylesheet" href="common.css">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="loading.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Science+Gothic:wght@100..900&display=swap');
+    </style>
+    <script src="mobile-menu.js"></script>
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen">
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+    </div>
+
+    <div id="menu-placeholder"></div>
+
+    <!-- CONTACT SECTION -->
+    <section class="contact-form-section" style="min-height: calc(100vh - 150px); padding-top: 60px;">
+        <div class="contact-form-container">
+            
+            <div class="contact-form-left">
+                <h1 style="font-size: 2.8rem; color: #0e4c80; font-family: 'Science Gothic', sans-serif; margin-bottom: 30px;">Kontaktirajte nas</h1>
+                
+                <div class="contact-form-info" style="gap: 30px;">
+                    <div class="info-item" style="margin-bottom: 25px;">
+                        <h3 style="font-size: 0.9rem; font-weight: 600; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; font-family: 'Science Gothic', sans-serif;">Telefon</h3>
+                        <a href="tel:+38631605305" style="font-size: 1.2rem; color: #333; text-decoration: none; font-weight: 500;">+386 31 605 305</a>
+                        <br>
+                        <a href="tel:+38631661225" style="font-size: 1.2rem; color: #333; text-decoration: none; font-weight: 500;">+386 31 661 225</a>
+                    </div>
+
+                    <div class="info-item" style="margin-bottom: 25px;">
+                        <h3 style="font-size: 0.9rem; font-weight: 600; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; font-family: 'Science Gothic', sans-serif;">E-pošta</h3>
+                        <a href="mailto:info@simbau.si" style="font-size: 1.2rem; color: #333; text-decoration: none; font-weight: 500;">info@simbau.si</a>
+                    </div>
+
+                    <div class="info-item" style="margin-bottom: 25px;">
+                        <h3 style="font-size: 0.9rem; font-weight: 600; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; font-family: 'Science Gothic', sans-serif;">Poslovna enota</h3>
+                        <p style="font-size: 1.1rem; color: #333; margin: 0; font-weight: 500;">PE Vratja vas 14, 9253 Apače</p>
+                    </div>
+
+                    <div class="info-item" style="margin-bottom: 25px;">
+                        <h3 style="font-size: 0.9rem; font-weight: 600; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; font-family: 'Science Gothic', sans-serif;">Delovni čas</h3>
+                        <p style="font-size: 1.1rem; color: #333; margin: 0; font-weight: 500;">Ponedeljek - Petek</p>
+                        <p style="font-size: 1.1rem; color: #333; margin: 0; font-weight: 500;">7:00 - 15:00</p>
+                    </div>
+
+                    <div class="social-row" style="display: flex; gap: 15px; margin-top: 20px;">
+                        <a href="https://www.facebook.com/profile.php?id=100063657256911" target="_blank" style="display: inline-flex; align-items: center; gap: 10px; padding: 12px 24px; background: #0e4c80; color: #fff; text-decoration: none; font-weight: 600; font-family: 'Science Gothic', sans-serif; transition: all 0.3s ease;">
+                            <i class="fa-brands fa-facebook-f"></i>
+                            Facebook
+                        </a>
+
+                        <a href="https://www.instagram.com/simbau_gradbenistvo/" target="_blank" style="display: inline-flex; align-items: center; gap: 10px; padding: 12px 24px; background: #0e4c80; color: #fff; text-decoration: none; font-weight: 600; font-family: 'Science Gothic', sans-serif; transition: all 0.3s ease;">
+                            <i class="fa-brands fa-instagram"></i>
+                            Instagram
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-form-right">
+                <form class="contact-form" id="contactForm" method="POST" action="send-email.php">
+                    
+                    <div class="form-group">
+                        <label for="name">Ime in priimek *</label>
+                        <input type="text" id="name" name="name" placeholder="Janez Novak" required minlength="2">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" placeholder="janez.novak@email.si" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Telefon</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+386 40 123 456">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Sporočilo *</label>
+                        <textarea id="message" name="message" placeholder="Povejte nam o vašem projektu..." required minlength="10"></textarea>
+                    </div>
+
+                    <div id="formMessage" class="form-message"></div>
+
+                    <button type="submit" class="form-submit-btn" id="submitBtn">
+                        <span class="btn-text">Pošlji sporočilo</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="footer-simple">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3 class="footer-section-title">SIMBAU d.o.o.</h3>
+                    <p class="footer-copyright">&copy; 2024 Vse pravice pridržane</p>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-heading">Navigacija</h4>
+                    <nav class="footer-nav">
+                        <a href="index.html">Domov</a>
+                        <a href="galerija.html">Galerija</a>
+                        <a href="kontakt.html">Kontakt</a>
+                    </nav>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-heading">Kontakt</h4>
+                    <div class="footer-contact-info">
+                        <a href="tel:+38631605305">+386 31 605 305</a>
+                        <a href="mailto:info@simbau.si">info@simbau.si</a>
+                        <p>PE Vratja vas 14, 9253 Apače</p>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-heading">Pravno</h4>
+                    <nav class="footer-nav">
+                        <a href="politika-zasebnosti.html">Politika zasebnosti</a>
+                        <a href="pogoji-uporabe.html">Pogoji uporabe</a>
+                    </nav>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-heading">Sledite nam</h4>
+                    <div class="footer-social">
+                        <a href="https://www.facebook.com/profile.php?id=100063657256911" target="_blank" rel="noopener" aria-label="Facebook">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/simbau_gradbenistvo/" target="_blank" rel="noopener" aria-label="Instagram">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="loading.js"></script>
+    <script src="script.js"></script>
+    <script>
+        fetch('menu.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('menu-placeholder').innerHTML = data;
+            if (typeof initDropdowns === 'function') {
+                setTimeout(initDropdowns, 50);
+            }
+        });
+
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const form = this;
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const formMessage = document.getElementById('formMessage');
+            const formData = new FormData(form);
+            
+            submitBtn.disabled = true;
+            btnText.textContent = 'Pošiljam...';
+            formMessage.textContent = '';
+            formMessage.className = 'form-message';
+            
+            fetch('send-email.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    formMessage.textContent = data.message;
+                    formMessage.className = 'form-message success';
+                    form.reset();
+                } else {
+                    formMessage.textContent = data.message;
+                    formMessage.className = 'form-message error';
+                }
+            })
+            .catch(error => {
+                formMessage.textContent = 'Prišlo je do napake. Poskusite ponovno.';
+                formMessage.className = 'form-message error';
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                btnText.textContent = 'Pošlji sporočilo';
+            });
+        });
+    </script>
+</body>
+</html>

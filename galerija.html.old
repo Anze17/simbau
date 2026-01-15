@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galerija projektov | SIMBAU - Gradbeni projekti od leta 2011</title>
+    <meta name="description" content="Oglejte si galerijo izvedenih gradbenih projektov podjetja SIMBAU. Od leta 2011 gradimo stanovanjske hiše, izvajamo krovska dela in adaptacije po vsej Sloveniji.">
+    <meta name="keywords" content="gradbeni projekti, galerija, stanovanjske hiše, krovstvo, adaptacije, SIMBAU, gradnja hiš, prenova, Slovenija">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Galerija projektov | SIMBAU">
+    <meta property="og:description" content="Oglejte si izbor naših izvedenih gradbenih projektov. Stanovanjska gradnja, krovstvo in adaptacije od leta 2011.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://simbau.si/galerija.html">
+    <link rel="canonical" href="https://simbau.si/galerija.html">
+    <link rel="stylesheet" href="common.css">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="loading.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Science+Gothic:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        /* ========================================
+           CLEAN PROFESSIONAL GALLERY
+           ======================================== */
+        
+        .gallery-page {
+            background: #fff;
+        }
+
+        /* Hero Section */
+        .gallery-hero {
+            padding: 100px 60px 80px;
+            background: #fafafa;
+            border-bottom: 1px solid #eee;
+        }
+
+        .gallery-hero-inner {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .gallery-hero h1 {
+            font-size: 42px;
+            font-weight: 800;
+            color: #ffffff;
+            font-family: 'Science Gothic', sans-serif;
+            margin-bottom: 24px;
+            letter-spacing: -0.5px;
+        }
+
+        .gallery-intro {
+            font-size: 17px;
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .gallery-stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .stat-item {
+            text-align: left;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 800;
+            color: #0e4c80;
+            font-family: 'Science Gothic', sans-serif;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Filter Section */
+        .gallery-filter-section {
+            padding: 0;
+            background: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #eee;
+        }
+
+        .gallery-filters {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .filter-btn {
+            padding: 20px 40px;
+            background: transparent;
+            border: none;
+            color: #888;
+            font-size: 13px;
+            font-weight: 600;
+            font-family: 'Science Gothic', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .filter-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: #0e4c80;
+            transition: width 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            color: #333;
+        }
+
+        .filter-btn.active {
+            color: #0e4c80;
+        }
+
+        .filter-btn.active::after {
+            width: 40px;
+        }
+
+        /* Gallery Container */
+        .gallery-container {
+            padding: 40px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* Gallery Grid - Clean 3 column */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        /* Gallery Item - No rounded corners */
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            cursor: pointer;
+            background: #f5f5f5;
+        }
+
+        .gallery-image-wrapper {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+            border-radius: 0 !important;
+        }
+
+        .gallery-item:hover .gallery-image {
+            transform: scale(1.03);
+        }
+
+        /* Simple Overlay */
+        .gallery-overlay {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            padding: 24px 0 24px 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            text-align: center;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-overlay h3 {
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            font-family: 'Science Gothic', sans-serif;
+            margin-bottom: 4px;
+        }
+
+        .gallery-overlay span {
+            color: rgba(255,255,255,0.7);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Hidden items for filtering */
+        .gallery-item.hidden {
+            display: none;
+        }
+
+        /* Lightbox - Clean design */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .lightbox.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 85vh;
+            position: relative;
+        }
+
+        .lightbox-image {
+            max-width: 100%;
+            max-height: 85vh;
+            object-fit: contain;
+        }
+
+        .lightbox-info {
+            position: absolute;
+            bottom: -50px;
+            left: 0;
+            color: white;
+        }
+
+        .lightbox-title {
+            font-size: 18px;
+            font-weight: 600;
+            font-family: 'Science Gothic', sans-serif;
+            margin-bottom: 4px;
+        }
+
+        .lightbox-caption {
+            font-size: 13px;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-close:hover {
+            opacity: 1;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+            padding: 20px;
+        }
+
+        .lightbox-nav:hover {
+            opacity: 1;
+        }
+
+        .lightbox-prev {
+            left: 20px;
+        }
+
+        .lightbox-next {
+            right: 20px;
+        }
+
+        .lightbox-counter {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.5);
+            font-size: 13px;
+            font-family: 'Science Gothic', sans-serif;
+            letter-spacing: 2px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .gallery-container {
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .gallery-hero {
+                padding: 80px 30px 60px;
+            }
+            
+            .gallery-hero h1 {
+                font-size: 32px;
+            }
+            
+            .gallery-intro {
+                font-size: 15px;
+            }
+            
+            .gallery-stats {
+                gap: 30px;
+            }
+            
+            .stat-number {
+                font-size: 24px;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            
+            .gallery-container {
+                padding: 20px;
+            }
+            
+            .filter-btn {
+                padding: 16px 24px;
+                font-size: 11px;
+            }
+        }
+
+        @media (max-width: 540px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            
+            .gallery-filters {
+                flex-wrap: wrap;
+            }
+            
+            .filter-btn {
+                padding: 14px 18px;
+            }
+            
+            .gallery-stats {
+                flex-wrap: wrap;
+                gap: 24px;
+            }
+            
+            /* Additional mobile improvements - NO MARGIN */
+            .gallery-filter-section {
+                top: 70px; /* Adjust for mobile fixed menu */
+            }
+            
+            .gallery-filters {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                flex-wrap: nowrap;
+            }
+            
+            .gallery-filters::-webkit-scrollbar {
+                display: none;
+            }
+            
+            .filter-btn {
+                flex-shrink: 0;
+                min-height: 48px; /* Touch friendly */
+            }
+            
+            .gallery-item {
+                max-width: 100%;
+            }
+            
+            .gallery-image {
+                width: 100%;
+                height: auto;
+                max-height: 250px;
+                object-fit: cover;
+            }
+            
+            /* Lightbox mobile adjustments */
+            .lightbox-close,
+            .lightbox-nav {
+                width: 44px;
+                height: 44px;
+                font-size: 20px;
+            }
+            
+            .lightbox-content {
+                max-width: 95%;
+                max-height: 70vh;
+            }
+            
+            .lightbox-image {
+                max-height: 70vh;
+            }
+        }
+
+        /* Footer spacing */
+        .footer-simple {
+            margin-top: 0;
+        }
+    </style>
+
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ImageGallery",
+        "name": "SIMBAU - Galerija gradbenih projektov",
+        "description": "Galerija izvedenih gradbenih projektov podjetja SIMBAU od leta 2011",
+        "publisher": {
+            "@type": "Organization",
+            "name": "SIMBAU d.o.o.",
+            "url": "https://simbau.si"
+        }
+    }
+    </script>
+    <script src="mobile-menu.js"></script>
+</head>
+<body class="gallery-page">
+    <!-- Loading Screen -->
+    <div class="loading-screen">
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+    </div>
+
+    <div id="menu-placeholder"></div>
+
+    <!-- Hero Section with Description -->
+    <section class="gallery-hero">
+        <div class="gallery-hero-inner">
+            <h1>Galerija projektov</h1>
+            <p class="gallery-intro">
+                Od leta 2011 uresničujemo gradbene projekte po vsej Sloveniji. Tukaj si lahko ogledate izbor naših del – od novogradenj stanovanjskih hiš, krovskih del do celovitih adaptacij. Vsak projekt je rezultat predanosti, strokovnosti in tesnega sodelovanja z naročniki.
+            </p>
+            <div class="gallery-stats">
+                <div class="stat-item">
+                    <span class="stat-number">13+</span>
+                    <span class="stat-label">Let izkušenj</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">50+</span>
+                    <span class="stat-label">Zaključenih projektov</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+ 
+
+    <!-- Gallery Grid -->
+    <section class="gallery-container">
+        <div class="gallery-grid" role="list" aria-label="Galerija projektov">
+            
+            <!-- Bela hiša -->
+            <article class="gallery-item" 
+                     data-category="stanovanjska" 
+                     data-project="bela-hisa"
+                     data-title="Bela hiša"
+                     data-caption="Moderna stanovanjska gradnja"
+                     role="listitem"
+                     tabindex="0"
+                     aria-label="Bela hiša - Moderna stanovanjska gradnja">
+                <div class="gallery-image-wrapper">
+                    <img src="slike/belahisa2.jpg" 
+                         alt="Bela hiša - moderna stanovanjska gradnja SIMBAU"
+                         loading="lazy"
+                         class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3>Bela hiša</h3>
+                        <span>Stanovanjska gradnja</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Detajl fasade -->
+            <article class="gallery-item" 
+                     data-category="stanovanjska" 
+                     data-project="bela-hisa-detajl"
+                     data-title="Detajl fasade"
+                     data-caption="Kvalitetna izvedba fasade"
+                     role="listitem"
+                     tabindex="0"
+                     aria-label="Detajl fasade - Kvalitetna izvedba">
+                <div class="gallery-image-wrapper">
+                    <img src="slike/simbaubelahisa.jpg" 
+                         alt="Detajl fasade - kvalitetna izvedba SIMBAU"
+                         loading="lazy"
+                         class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3>Detajl fasade</h3>
+                        <span>Stanovanjska gradnja</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Luksuzna hiša -->
+            <article class="gallery-item" 
+                     data-category="stanovanjska" 
+                     data-project="luksuzna-hisa"
+                     data-title="Luksuzna hiša"
+                     data-caption="Premium stanovanjska gradnja"
+                     role="listitem"
+                     tabindex="0"
+                     aria-label="Luksuzna hiša - Premium gradnja">
+                <div class="gallery-image-wrapper">
+                    <img src="slike/hisaupscale.jpeg" 
+                         alt="Luksuzna hiša - premium stanovanjska gradnja SIMBAU"
+                         loading="lazy"
+                         class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3>Luksuzna hiša</h3>
+                        <span>Stanovanjska gradnja</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Krovstvo 1 -->
+            <article class="gallery-item" 
+                     data-category="krovstvo" 
+                     data-project="krovstvo-1"
+                     data-title="Strešna konstrukcija"
+                     data-caption="Profesionalna izvedba strehe"
+                     role="listitem"
+                     tabindex="0"
+                     aria-label="Strešna konstrukcija - Profesionalna izvedba">
+                <div class="gallery-image-wrapper">
+                    <img src="slike/simbaubelahisa.jpg" 
+                         alt="Strešna konstrukcija - krovstvo SIMBAU"
+                         loading="lazy"
+                         class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3>Strešna konstrukcija</h3>
+                        <span>Krovstvo</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Krovstvo 2 -->
+            <article class="gallery-item" 
+                     data-category="krovstvo" 
+                     data-project="krovstvo-2"
+                     data-title="Obnova strehe"
+                     data-caption="Celovita prenova strešne kritine"
+                     role="listitem"
+                     tabindex="0"
+                     aria-label="Obnova strehe - Celovita prenova">
+                <div class="gallery-image-wrapper">
+                    <img src="slike/notranjost simbau.jpg" 
+                         alt="Obnova strehe - krovstvo SIMBAU"
+                         loading="lazy"
+                         class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3>Obnova strehe</h3>
+                        <span>Krovstvo</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Adaptacija 1 -->
+            <article class="gallery-item" 
+                     data-category="adaptacije" 
+                     data-project="adaptacija-1"
+                     data-title="Celovita adaptacija"
+                     data-caption="Popolna prenova objekta"
+                     role="listitem"
+                     tabindex="0"
+                     aria-label="Celovita adaptacija - Popolna prenova">
+                <div class="gallery-image-wrapper">
+                    <img src="slike/hisaupscale.jpeg" 
+                         alt="Celovita adaptacija objekta - SIMBAU"
+                         loading="lazy"
+                         class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3>Celovita adaptacija</h3>
+                        <span>Adaptacije</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Adaptacija 2 -->
+            <article class="gallery-item" 
+                     data-category="adaptacije" 
+                     data-project="adaptacija-2"
+                     data-title="Notranja prenova"
+                     data-caption="Moderna notranja ureditev"
+                     role="listitem"
+                     tabindex="0"
+                     aria-label="Notranja prenova - Moderna ureditev">
+                <div class="gallery-image-wrapper">
+                    <img src="slike/simbaubelahisa.jpg" 
+                         alt="Notranja prenova - adaptacije SIMBAU"
+                         loading="lazy"
+                         class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3>Notranja prenova</h3>
+                        <span>Adaptacije</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Notranjost -->
+            <article class="gallery-item" 
+                     data-category="adaptacije" 
+                     data-project="notranjost"
+                     data-title="Notranjost"
+                     data-caption="Sodobna notranja oprema"
+                     role="listitem"
+                     tabindex="0"
+                     aria-label="Notranjost - Sodobna oprema">
+                <div class="gallery-image-wrapper">
+                    <img src="slike/notranjost simbau.jpg" 
+                         alt="Notranjost - sodobna notranja oprema SIMBAU"
+                         loading="lazy"
+                         class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3>Notranjost</h3>
+                        <span>Adaptacije</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Krovstvo 3 -->
+            <article class="gallery-item" 
+                     data-category="krovstvo" 
+                     data-project="krovstvo-3"
+                     data-title="Nova streha"
+                     data-caption="Kompletna strešna konstrukcija"
+                     role="listitem"
+                     tabindex="0"
+                     aria-label="Nova streha - Kompletna konstrukcija">
+                <div class="gallery-image-wrapper">
+                    <img src="slike/hisaupscale.jpeg" 
+                         alt="Nova streha - krovstvo SIMBAU"
+                         loading="lazy"
+                         class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3>Nova streha</h3>
+                        <span>Krovstvo</span>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+    </section>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Pregledovalnik slik">
+        <button class="lightbox-close" aria-label="Zapri" title="Zapri (Esc)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+
+        <button class="lightbox-nav lightbox-prev" aria-label="Prejšnja slika" title="Prejšnja (←)">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </button>
+
+        <button class="lightbox-nav lightbox-next" aria-label="Naslednja slika" title="Naslednja (→)">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+        </button>
+
+        <div class="lightbox-content">
+            <img src="" alt="" class="lightbox-image" id="lightbox-image">
+            <div class="lightbox-info">
+                <h2 class="lightbox-title" id="lightbox-title"></h2>
+                <p class="lightbox-caption" id="lightbox-caption"></p>
+            </div>
+        </div>
+
+        <div class="lightbox-counter" aria-live="polite">
+            <span id="lightbox-counter"></span>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-simple">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3 class="footer-section-title">SIMBAU d.o.o.</h3>
+                    <p class="footer-copyright">&copy; 2024 Vse pravice pridržane</p>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-heading">Navigacija</h4>
+                    <nav class="footer-nav">
+                        <a href="index.html">Domov</a>
+                        <a href="galerija.html">Galerija</a>
+                        <a href="kontakt.html">Kontakt</a>
+                        <a href="grajskivrtovi.html">Grajski Vrtovi</a>
+                    </nav>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-heading">Kontakt</h4>
+                    <div class="footer-contact-info">
+                        <a href="tel:+38631605305">+386 31 605 305</a>
+                        <a href="mailto:info@simbau.si">info@simbau.si</a>
+                        <p>PE Vratja vas 14, 9253 Apače</p>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-heading">Pravno</h4>
+                    <nav class="footer-nav">
+                        <a href="politika-zasebnosti.html">Politika zasebnosti</a>
+                        <a href="pogoji-uporabe.html">Pogoji uporabe</a>
+                    </nav>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-heading">Sledite nam</h4>
+                    <div class="footer-social">
+                        <a href="https://www.facebook.com/profile.php?id=100063657256911" target="_blank" rel="noopener" aria-label="Facebook">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/simbau_gradbenistvo/" target="_blank" rel="noopener" aria-label="Instagram">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="loading.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Menu
+        fetch('menu.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('menu-placeholder').innerHTML = data;
+            if (typeof initDropdowns === 'function') {
+                setTimeout(initDropdowns, 50);
+            }
+        });
+
+        // Filter functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => {
+                    b.classList.remove('active');
+                    b.setAttribute('aria-pressed', 'false');
+                });
+                btn.classList.add('active');
+                btn.setAttribute('aria-pressed', 'true');
+
+                const filter = btn.dataset.filter;
+
+                galleryItems.forEach(item => {
+                    if (filter === 'all' || item.dataset.category === filter) {
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+            });
+        });
+
+        // Lightbox functionality
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightbox-image');
+        const lightboxTitle = document.getElementById('lightbox-title');
+        const lightboxCaption = document.getElementById('lightbox-caption');
+        const lightboxCounter = document.getElementById('lightbox-counter');
+        const lightboxClose = document.querySelector('.lightbox-close');
+        const lightboxPrev = document.querySelector('.lightbox-prev');
+        const lightboxNext = document.querySelector('.lightbox-next');
+
+        let currentIndex = 0;
+        let visibleItems = [];
+
+        function updateVisibleItems() {
+            visibleItems = Array.from(galleryItems).filter(item => !item.classList.contains('hidden'));
+        }
+
+        function openLightbox(index) {
+            updateVisibleItems();
+            currentIndex = index;
+            showImage();
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function showImage() {
+            const item = visibleItems[currentIndex];
+            const img = item.querySelector('.gallery-image');
+            lightboxImage.src = img.src;
+            lightboxImage.alt = img.alt;
+            lightboxTitle.textContent = item.dataset.title;
+            lightboxCaption.textContent = item.dataset.caption;
+            lightboxCounter.textContent = `${currentIndex + 1} / ${visibleItems.length}`;
+        }
+
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % visibleItems.length;
+            showImage();
+        }
+
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + visibleItems.length) % visibleItems.length;
+            showImage();
+        }
+
+        // Event listeners
+        galleryItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                updateVisibleItems();
+                const visibleIndex = visibleItems.indexOf(item);
+                openLightbox(visibleIndex);
+            });
+            
+            // Keyboard accessibility
+            item.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    updateVisibleItems();
+                    const visibleIndex = visibleItems.indexOf(item);
+                    openLightbox(visibleIndex);
+                }
+            });
+        });
+
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightboxNext.addEventListener('click', nextImage);
+        lightboxPrev.addEventListener('click', prevImage);
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+            
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowRight') nextImage();
+            if (e.key === 'ArrowLeft') prevImage();
+        });
+    </script>
+</body>
+</html>
